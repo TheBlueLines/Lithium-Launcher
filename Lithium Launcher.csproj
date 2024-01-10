@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
+    <RootNamespace>Lithium_Launcher</RootNamespace>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <StartupObject>Lithium_Launcher.Program</StartupObject>
+    <ApplicationIcon>lethal.ico</ApplicationIcon>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="lethal.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="GitHub">
+      <HintPath>..\GitHub\bin\Debug\net8.0\GitHub.dll</HintPath>
+    </Reference>
+    <Reference Include="Thunderstore">
+      <HintPath>..\Thunderstore\bin\Debug\net8.0\Thunderstore.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
