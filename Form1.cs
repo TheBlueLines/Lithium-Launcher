@@ -7,7 +7,7 @@ namespace Lithium_Launcher
 {
 	public partial class Form1 : Form
 	{
-		private string path = "E:\\SteamLibrary\\steamapps\\common\\Lethal Company\\";
+		private string path = string.Empty;
 		private GitHub bepInEx = new GitHub("BepInEx", "BepInEx");
 		private Release latestBepInEx;
 		private Thunderstore thunderstore;
@@ -50,7 +50,7 @@ namespace Lithium_Launcher
 			}
 			else if (play.Text == "Play")
 			{
-				string executable = path + "Lethal Company.exe";
+				string executable = path + "\\Lethal Company.exe";
 				if (File.Exists(executable))
 				{
 					Process.Start(executable);
@@ -68,37 +68,44 @@ namespace Lithium_Launcher
 			}
 			play.Enabled = check;
 		}
-		private void DownloadPlugin(string nspace, string name)
+		public void DownloadPlugin(string nspace, string name)
 		{
 			PackageExperimental package = thunderstore.GetPackage(nspace, name);
 			PackageVersionExperimental? latest = package.latest;
 			if (latest != null)
 			{
 				Stream stream = latest.Download();
-				ZipArchive zipArchive = new(stream);
-				if (zipArchive.Entries.Where(x => x.FullName.StartsWith("BepInEx")).Count() > 0)
-				{
-					zipArchive.ExtractToDirectory(path, true);
-				}
-				else if (zipArchive.Entries.Where(x => x.FullName.StartsWith("plugins")).Count() > 0)
-				{
-					zipArchive.ExtractToDirectory(path + "BepInEx", true);
-				}
-				else
-				{
-					zipArchive.ExtractToDirectory(path + "BepInEx\\plugins", true);
-				}
-				zipArchive.Dispose();
-				stream.Close();
-				stream.Dispose();
+				DownloadPlugin(stream);
 			}
+		}
+		public void DownloadPlugin(Stream stream)
+		{
+			ZipArchive zipArchive = new(stream);
+			if (zipArchive.Entries.Where(x => x.FullName.StartsWith("BepInEx")).Count() > 0)
+			{
+				zipArchive.ExtractToDirectory(path, true);
+			}
+			else if (zipArchive.Entries.Where(x => x.FullName.StartsWith("plugins")).Count() > 0)
+			{
+				zipArchive.ExtractToDirectory(path + "\\BepInEx", true);
+			}
+			else
+			{
+				zipArchive.ExtractToDirectory(path + "\\BepInEx\\plugins", true);
+			}
+			zipArchive.Dispose();
+			stream.Close();
+			stream.Dispose();
 		}
 		private void DownloadPlugins(string[] plugins)
 		{
 			play.Enabled = false;
 			play.Text = "Downloading";
 			progress.Value = 0;
-			Directory.Delete(path + "BepInEx", true);
+			if (Directory.Exists(path + "\\BepInEx"))
+			{
+				Directory.Delete(path + "\\BepInEx", true);
+			}
 			if (listBox1.SelectedIndex == 0)
 			{
 				Release release = bepInEx.LatestRelease();
@@ -118,15 +125,15 @@ namespace Lithium_Launcher
 					progress.Refresh();
 				}
 				DownloadPlugin("2018", "LC_API");
-				File.Move(path + "BepInEx\\plugins\\LC_API.dll", path + "LC_API.dll", true);
+				File.Move(path + "\\BepInEx\\plugins\\LC_API.dll", path + "\\LC_API.dll", true);
 			}
 			play.Text = "Play";
 			play.Enabled = true;
-			File.WriteAllLines(path + "downloaded.txt", plugins);
+			File.WriteAllLines(path + "\\downloaded.txt", plugins);
 		}
 		private void Enhance()
 		{
-			string[] local = File.Exists(path + "downloaded.txt") ? File.ReadAllText(path + "downloaded.txt").Split("\r\n").Where(x => !string.IsNullOrEmpty(x)).ToArray() : [];
+			string[] local = File.Exists(path + "\\downloaded.txt") ? File.ReadAllText(path + "\\downloaded.txt").Split("\r\n").Where(x => !string.IsNullOrEmpty(x)).ToArray() : [];
 			if (local.Length == plugins.Length && plugins.Union(local).Count() == plugins.Length)
 			{
 				play.Text = "Play";
@@ -146,6 +153,11 @@ namespace Lithium_Launcher
 				Enhance();
 				play.Enabled = true;
 			}
+		}
+		private void pluginsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			PluginManager pluginManager = new(this, thunderstore);
+			pluginManager.ShowDialog();
 		}
 	}
 }

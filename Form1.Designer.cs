@@ -32,10 +32,12 @@
 			play = new Button();
 			listBox1 = new ListBox();
 			info = new Label();
-			progress = new ProgressBar();
 			menuStrip1 = new MenuStrip();
 			openToolStripMenuItem = new ToolStripMenuItem();
 			modpackToolStripMenuItem = new ToolStripMenuItem();
+			managerToolStripMenuItem = new ToolStripMenuItem();
+			pluginsToolStripMenuItem = new ToolStripMenuItem();
+			progress = new ProgressBar();
 			menuStrip1.SuspendLayout();
 			SuspendLayout();
 			// 
@@ -75,17 +77,9 @@
 			info.Text = "TTMC Corporation";
 			info.TextAlign = ContentAlignment.MiddleCenter;
 			// 
-			// progress
-			// 
-			progress.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-			progress.Location = new Point(12, 415);
-			progress.Name = "progress";
-			progress.Size = new Size(776, 23);
-			progress.TabIndex = 3;
-			// 
 			// menuStrip1
 			// 
-			menuStrip1.Items.AddRange(new ToolStripItem[] { openToolStripMenuItem });
+			menuStrip1.Items.AddRange(new ToolStripItem[] { openToolStripMenuItem, managerToolStripMenuItem });
 			menuStrip1.Location = new Point(0, 0);
 			menuStrip1.Name = "menuStrip1";
 			menuStrip1.Size = new Size(800, 24);
@@ -105,6 +99,28 @@
 			modpackToolStripMenuItem.Size = new Size(124, 22);
 			modpackToolStripMenuItem.Text = "Modpack";
 			modpackToolStripMenuItem.Click += modpackToolStripMenuItem_Click;
+			// 
+			// managerToolStripMenuItem
+			// 
+			managerToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { pluginsToolStripMenuItem });
+			managerToolStripMenuItem.Name = "managerToolStripMenuItem";
+			managerToolStripMenuItem.Size = new Size(66, 20);
+			managerToolStripMenuItem.Text = "Manager";
+			// 
+			// pluginsToolStripMenuItem
+			// 
+			pluginsToolStripMenuItem.Name = "pluginsToolStripMenuItem";
+			pluginsToolStripMenuItem.Size = new Size(180, 22);
+			pluginsToolStripMenuItem.Text = "Plugins";
+			pluginsToolStripMenuItem.Click += pluginsToolStripMenuItem_Click;
+			// 
+			// progress
+			// 
+			progress.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+			progress.Location = new Point(12, 415);
+			progress.Name = "progress";
+			progress.Size = new Size(776, 23);
+			progress.TabIndex = 3;
 			// 
 			// Form1
 			// 
@@ -131,9 +147,11 @@
 		private Button play;
 		private ListBox listBox1;
 		private Label info;
-		private ProgressBar progress;
 		private MenuStrip menuStrip1;
 		private ToolStripMenuItem openToolStripMenuItem;
 		private ToolStripMenuItem modpackToolStripMenuItem;
+		private ToolStripMenuItem managerToolStripMenuItem;
+		private ToolStripMenuItem pluginsToolStripMenuItem;
+		private ProgressBar progress;
 	}
 }
